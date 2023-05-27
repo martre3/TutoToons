@@ -8,30 +8,31 @@ namespace TutoToons
     public class LevelManager : MonoBehaviour
     {
         public static LevelManager Instance { get; private set; }
-
-        private DataManager _data;
+        public List<Level> Levels => _dataManager.Levels;
         
-        void Awake()
+        private DataManager _dataManager;
+        private StateManager _stateManager;
+        private LevelBuilder _levelBuilder;
+        
+        public void LoadLevel(Level level)
+        {
+            _levelBuilder.Build(level);
+            _stateManager.SetState(GameState.Playing);
+        }
+        
+        private void Awake()
         {
             if (Instance == null)
             {
                 Instance = this;
-                _data = DataManager.Instance;
+                _dataManager = DataManager.Instance;
+                _stateManager = StateManager.Instance;
+                _levelBuilder = gameObject.GetComponent<LevelBuilder>();
             }
             else
             {
                 Destroy(gameObject);
             }
-        }
-
-        private void Update()
-        {
-            
-        }
-
-        private void LoadLevel()
-        {
-            
         }
     }
 }
