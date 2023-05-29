@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,23 +7,32 @@ namespace TutoToons
 {
     public class LevelBuilder : MonoBehaviour
     {
-        [SerializeField] private Transform _gameParent;
+        public static LevelBuilder Instance { get; private set; }
+
         [SerializeField] private Texture _background;
-        [SerializeField] private GameObject _button;
+        private PoolManager _poolManager;
         
         public void Build(Level level)
         {
-            var buttonsWrapper = new GameObject("Buttons");
-            buttonsWrapper.transform.SetParent(_gameParent);
-            
-            foreach (var point in level.Points)
+            foreach (var coordinates in level.Points)
             {
-                Instantiate(
-                    _button, 
-                    new Vector2(point.x, point.y), 
-                    Quaternion.identity,
-                    buttonsWrapper.transform
-                );
+                var point = _poolManager.GetNextObject(PoolGroup.Point);
+                point.transform.position = new Vector2(coordinates.x, coordinates.y);
+            }
+            
+            _poolManager.Pool(PoolGroup.Rope, level.Points.Count);
+        }
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                _poolManager = PoolManager.Instance;
+            }
+            else
+            {
+                Destroy(gameObject);
             }
         }
     }
