@@ -134,22 +134,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Point
       objectReference: {fileID: 0}
-    - target: {fileID: 7210639059106625862, guid: 297ae7ef0a9f3e24b96f94c029dbd287, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.009
-      objectReference: {fileID: 0}
-    - target: {fileID: 7210639059106625862, guid: 297ae7ef0a9f3e24b96f94c029dbd287, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.002
-      objectReference: {fileID: 0}
-    - target: {fileID: 7703636892339126878, guid: 297ae7ef0a9f3e24b96f94c029dbd287, type: 3}
-      propertyPath: m_Offset.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7703636892339126878, guid: 297ae7ef0a9f3e24b96f94c029dbd287, type: 3}
-      propertyPath: m_Offset.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8564133958961704005, guid: 297ae7ef0a9f3e24b96f94c029dbd287, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -620,7 +604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a33724ee07fafa49aef28160e82617c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rope: {fileID: 0}
 --- !u!1 &1625214252
 GameObject:
   m_ObjectHideFlags: 0

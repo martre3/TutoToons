@@ -9,7 +9,7 @@ namespace TutoToons
     {
         public static LevelManager Instance { get; private set; }
         public List<Level> Levels => _dataManager.Levels;
-        public Level CurrentLevel { get; private set; }
+        public LevelState CurrentLevel { get; private set; }
         
         private DataManager _dataManager;
         private StateManager _stateManager;
@@ -17,9 +17,7 @@ namespace TutoToons
         
         public void LoadLevel(Level level)
         {
-            CurrentLevel = level;
-            
-            _levelBuilder.Build(level);
+            CurrentLevel = _levelBuilder.Build(level);
             _stateManager.SetState(GameState.Playing);
         }
         

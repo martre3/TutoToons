@@ -12,15 +12,25 @@ namespace TutoToons
         [SerializeField] private Texture _background;
         private PoolManager _poolManager;
         
-        public void Build(Level level)
+        public LevelState Build(Level level)
         {
-            foreach (var coordinates in level.Points)
+            List<Point> points = new List<Point>();
+            
+            for (int i = 0; i < level.Points.Count; i++)
             {
+                var coordinates = level.Points[i];
                 var point = _poolManager.GetNextObject(PoolGroup.Point);
+                
                 point.transform.position = new Vector2(coordinates.x, coordinates.y);
+                var pointComponent = point.GetComponent<Point>();
+                
+                pointComponent.SetNumber(i + 1);
+                points.Add(pointComponent);
             }
             
             _poolManager.Pool(PoolGroup.Rope, level.Points.Count);
+
+            return new LevelState(level, points);
         }
 
         private void Awake()

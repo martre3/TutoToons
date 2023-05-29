@@ -1,14 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TutoToons
 {
     public class GamePlayManager : MonoBehaviour
     {
-        public GameObject Rope;
-
         private const string _buttonTag = "Button";
 
         private Camera _camera;
@@ -16,7 +15,9 @@ namespace TutoToons
         private LevelManager _levelManager;
         private StateManager _stateManager;
         private PoolManager _poolManager;
-        private Queue<Point> _buttonsToActivate;
+
+        private Queue<Point> _buttonsToConnect;
+        private Point _previousActivatedPoint;
 
         private void Awake()
         {
@@ -48,15 +49,37 @@ namespace TutoToons
 
                 if (hit.collider != null && hit.collider.CompareTag(_buttonTag))
                 {
-                    var button = hit.transform.GetComponent<Point>();
-
-                    if (button != null && button.IsDisabled() == false)
-                    {
-                        _buttonsToActivate.Enqueue(button);
-                        button.Disable();
-                    }
+                    OnPointClicked(hit.transform.GetComponent<Point>());
                 }
             }
+        }
+
+        private void OnPointClicked(Point point)
+        {
+            if (CanPointBeActivated(point))
+            {
+                _buttonsToConnect.Enqueue(point);
+                _previousActivatedPoint = point;
+                point.Disable();
+
+                if (_previousActivatedPoint.Number == _levelManager.CurrentLevel.Points.Count)
+                {
+                    _buttonsToConnect.Enqueue(_levelManager.CurrentLevel.Points.First());
+                }
+            }
+        }
+        
+        private bool CanPointBeActivated(Point point)
+        {
+            if (_previousActivatedPoint == null && point.Number == 1)
+            {
+                return true;
+            }
+
+            return point != null
+                   && point.IsDisabled() == false
+                   && _previousActivatedPoint != null
+                   && point.Number == _previousActivatedPoint.Number + 1;
         }
 
         private void HandleStateChange(GameState state)
@@ -64,7 +87,7 @@ namespace TutoToons
             switch (state)
             {
                 case GameState.Playing:
-                    _buttonsToActivate = new Queue<Point>();
+                    _buttonsToConnect = new Queue<Point>();
                     StartCoroutine(ProcessQueue());
                     break;
                 default:
@@ -80,27 +103,32 @@ namespace TutoToons
 
             while (true)
             {
-                if (_buttonsToActivate.Count > 0)
+                if (_buttonsToConnect.Count > 0)
                 {
-                    var point = _buttonsToActivate.Dequeue();
+                    var point = _buttonsToConnect.Dequeue();
 
                     if (previousPoint)
                     {
-                        var rope = _poolManager
-                            .GetNextObject(PoolGroup.Rope)
-                            .GetComponent<Rope>();
-
-                        rope.Connect(previousPoint, point);
-                        
-                        yield return new WaitUntil(() => rope.IsConnected);
-                        
+                        yield return ConnectRope(previousPoint, point);
                     }
+
                     point.Connected();
                     previousPoint = point;
                 }
 
                 yield return timeout;
             }
+        }
+
+        private IEnumerator ConnectRope(Point point1, Point point2)
+        {
+            var rope = _poolManager
+                .GetNextObject(PoolGroup.Rope)
+                .GetComponent<Rope>();
+
+            rope.Connect(point1, point2);
+
+            return new WaitUntil(() => rope.IsConnected);
         }
     }
 }
