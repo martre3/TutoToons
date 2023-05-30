@@ -12,11 +12,13 @@ namespace TutoToons
         public int Number { get; private set; }
         
         [SerializeField] private Sprite _defaultButton;
-        [SerializeField] private Sprite _activatedButton;
+        [SerializeField] private GameObject _particles;
 
         private static readonly int Fade = Animator.StringToHash("Fade");
+        private static readonly int Click = Animator.StringToHash("Click");
         private TextMeshPro _numberText;
         private SpriteRenderer _renderer;
+        private Animator _spriteAnimator;
         private Animator _animator;
 
         public bool IsDisabled()
@@ -27,13 +29,14 @@ namespace TutoToons
         public void Disable()
         {
             State = PointState.Clicked;
+            _spriteAnimator.SetTrigger(Click);
+            _animator.SetTrigger(Fade);
         }
 
         public void Connected()
         {
             State = PointState.Connected;
-            _renderer.sprite = _activatedButton;
-            _animator.SetTrigger(Fade);
+            _particles.SetActive(true);
         }
 
         public void SetNumber(int number)
@@ -48,6 +51,7 @@ namespace TutoToons
             _animator = _numberText.gameObject.GetComponent<Animator>();
             _renderer = GetComponentInChildren<SpriteRenderer>();
             _renderer.sprite = _defaultButton;
+            _spriteAnimator = _renderer.gameObject.GetComponent<Animator>();
         }
     }
 }

@@ -54,7 +54,7 @@ namespace TutoToons
                 level.Points = rawLevel.level_data
                         .Select((point, i) => new { Value = point, Group = i / 2})
                         .GroupBy(point => point.Group)
-                        .Select(pair => new Vector2(pair.First().Value, pair.Last().Value))
+                        .Select(pair => new Vector2(pair.First().Value, 1000 - pair.Last().Value))
                         .ToList();
                 
                 Levels.Add(level);

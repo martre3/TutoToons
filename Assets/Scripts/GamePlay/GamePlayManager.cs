@@ -110,9 +110,9 @@ namespace TutoToons
                     if (previousPoint)
                     {
                         yield return ConnectRope(previousPoint, point);
+                        point.Connected();
                     }
-
-                    point.Connected();
+                    
                     previousPoint = point;
                 }
 
