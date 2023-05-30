@@ -6,17 +6,17 @@ namespace TutoToons
 {
     public class Pool
     {
-        public GameObject Obj;
+        public GameObject Obj { get; }
         public int Size => _pool.Count;
 
         private List<GameObject> _pool = new List<GameObject>();
-        private GameObject Container;
+        private GameObject _container;
         private int _current;
 
         public Pool(PoolGroup group, GameObject obj, Transform parent)
         {
-            Container = new GameObject($"{group.ToString()} (Pool)");
-            Container.transform.SetParent(parent);
+            _container = new GameObject($"{group.ToString()} (Pool)");
+            _container.transform.SetParent(parent);
 
             Obj = obj;
         }
@@ -38,7 +38,7 @@ namespace TutoToons
 
         public void Add(GameObject obj)
         {
-            obj.transform.SetParent(Container.transform);
+            obj.transform.SetParent(_container.transform);
             obj.SetActive(false);
 
             _pool.Add(obj);

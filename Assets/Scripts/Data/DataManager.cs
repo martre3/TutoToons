@@ -10,18 +10,20 @@ namespace TutoToons
     {
         public static DataManager Instance { get; private set; }
         public List<Level> Levels { get; private set; }
-        
-        private IDataLoader _dataLoader;
-        
+
         private const string _levelsDataPath = "Data/level_data";
-        
+
+        private IDataLoader _dataLoader;
+        private GameSettingsManager _settingsManager;
+
         private void Awake()
         {
             if (Instance == null)
             {
                 Instance = this;
                 _dataLoader = GetComponent<IDataLoader>();
-                
+                _settingsManager = GameSettingsManager.Instance;
+
                 Load();
             }
             else
@@ -37,28 +39,10 @@ namespace TutoToons
 
         private void LoadLevels()
         {
-            Levels = new List<Level>();
-            
-            var container = _dataLoader.Load<LevelsContainerRaw>(_levelsDataPath);
-        
-            foreach (var rawLevel in container.levels)
-            {
-                if (rawLevel.level_data.Count % 2 != 0)
-                {
-                    Debug.LogError("Invalid number of coordinates in level data");
-                    
-                    continue;
-                }
-                
-                var level = new Level();
-                level.Points = rawLevel.level_data
-                        .Select((point, i) => new { Value = point, Group = i / 2})
-                        .GroupBy(point => point.Group)
-                        .Select(pair => new Vector2(pair.First().Value, 1000 - pair.Last().Value))
-                        .ToList();
-                
-                Levels.Add(level);
-            }
+            Levels = LevelParser.ParseRaw(
+                _dataLoader.Load<LevelsContainerRaw>(_levelsDataPath),
+                _settingsManager.Settings
+            );
         }
     }
 }
