@@ -39,10 +39,10 @@ namespace TutoToons
             return _pool.Count != _current;
         }
 
-        public GameObject GetNext()
+        public GameObject GetNext(bool active)
         {
             var obj = _pool[_current];
-            obj.SetActive(true);
+            obj.SetActive(active);
 
             _current++;
 

@@ -16,6 +16,7 @@ namespace TutoToons
 
         private static readonly int Fade = Animator.StringToHash("Fade");
         private static readonly int Click = Animator.StringToHash("Click");
+        private static readonly int Connect = Animator.StringToHash("Connect");
         
         private Color _defaultTextColor;
         private TextMeshPro _numberText;
@@ -38,6 +39,7 @@ namespace TutoToons
         public void Connected()
         {
             State = PointState.Connected;
+            _spriteAnimator.SetTrigger(Connect);
             _particles.SetActive(true);
         }
 
@@ -68,7 +70,6 @@ namespace TutoToons
             _renderer = GetComponentInChildren<SpriteRenderer>();
             _renderer.sprite = _defaultButton;
             _defaultTextColor = _numberText.color;
-            // _numberText.color = Color.cyan;
 
             _spriteAnimator = _renderer.gameObject.GetComponent<Animator>();
         }

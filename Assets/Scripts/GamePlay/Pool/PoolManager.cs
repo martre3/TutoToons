@@ -33,7 +33,7 @@ namespace TutoToons
             }
         }
 
-        public GameObject GetNextObject(PoolGroup group)
+        public GameObject GetNextObject(PoolGroup group, bool active = true)
         {
             if (_pools.ContainsKey(group) == false)
             {
@@ -45,7 +45,7 @@ namespace TutoToons
                 _pools[group].Add(Instantiate(_pools[group].Obj));
             }
 
-            return _pools[group].GetNext();
+            return _pools[group].GetNext(active);
         }
 
         public void Pool(PoolGroup group, int amount)

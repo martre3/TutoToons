@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace TutoToons
@@ -8,8 +10,7 @@ namespace TutoToons
     public class LevelBuilder : MonoBehaviour
     {
         public static LevelBuilder Instance { get; private set; }
-
-        [SerializeField] private Texture _background;
+        
         private PoolManager _poolManager;
         
         public LevelState Build(Level level)
@@ -19,7 +20,7 @@ namespace TutoToons
             for (int i = 0; i < level.Points.Count; i++)
             {
                 var coordinates = level.Points[i];
-                var point = _poolManager.GetNextObject(PoolGroup.Point);
+                var point = _poolManager.GetNextObject(PoolGroup.Point, false);
                 
                 point.transform.position = new Vector2(coordinates.x, coordinates.y);
                 var pointComponent = point.GetComponent<Point>();

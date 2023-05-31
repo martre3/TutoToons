@@ -8,8 +8,9 @@ namespace TutoToons
 {
     public class GamePlayManager : MonoBehaviour
     {
+        [SerializeField] private float _nextRopeDelay = 0.15f;
         [SerializeField] private float _finishDelay = 1.5f;
-        
+
         private const string _pointTag = "Button";
 
         private Camera _camera;
@@ -106,7 +107,7 @@ namespace TutoToons
 
         private IEnumerator ProcessQueue()
         {
-            var timeout = new WaitForSeconds(0.2f);
+            var timeout = new WaitForSeconds(_nextRopeDelay);
             Point previousPoint = null;
 
             while (true)

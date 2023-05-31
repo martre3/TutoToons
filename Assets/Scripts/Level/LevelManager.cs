@@ -14,10 +14,13 @@ namespace TutoToons
         private DataManager _dataManager;
         private StateManager _stateManager;
         private LevelBuilder _levelBuilder;
+        private PointsAnimator _pointsAnimator;
         
         public void LoadLevel(Level level)
         {
             CurrentLevel = _levelBuilder.Build(level);
+            _pointsAnimator.AnimateSpawn(CurrentLevel.Points);
+            
             _stateManager.SetState(GameState.Playing);
         }
         
@@ -28,6 +31,7 @@ namespace TutoToons
                 Instance = this;
                 _dataManager = DataManager.Instance;
                 _stateManager = StateManager.Instance;
+                _pointsAnimator = PointsAnimator.Instance;
                 _levelBuilder = gameObject.GetComponent<LevelBuilder>();
             }
             else
