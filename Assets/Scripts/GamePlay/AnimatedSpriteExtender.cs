@@ -15,26 +15,31 @@ namespace TutoToons
 
         public void ExtendTo(Vector2 to, Action<bool> callback)
         {
+            LookAt(to);
+            UpdateSize(0);
+
+            StartCoroutine(Animate(to, callback));
+        }
+
+        private void LookAt(Vector2 to)
+        {
             Vector2 direction = to - (Vector2) transform.position;
             transform.rotation = Quaternion.FromToRotation(Vector3.right, direction);
-            UpdateSize(0);
-            
-            StartCoroutine(Animate(to, callback));
         }
 
         private IEnumerator Animate(Vector2 to, Action<bool> callback)
         {
             float destinationSize = Vector2.Distance(_anchor.position, to) / _anchor.localScale.y;
             float currentSize = 0;
-            var timeout = new WaitForFixedUpdate();
+            var timeout = new WaitForEndOfFrame();
 
             while (currentSize <= destinationSize)
             {
                 float distanceMultiplier = _distanceMultipierBase - (destinationSize - currentSize) / destinationSize;
-                
+
                 currentSize += _animationSpeed * Time.deltaTime * distanceMultiplier;
                 UpdateSize(Math.Min(currentSize, destinationSize));
-                
+
                 yield return timeout;
             }
 
