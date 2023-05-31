@@ -8,6 +8,7 @@ namespace TutoToons
     public class AnimatedSpriteExtender : MonoBehaviour, ISpriteExtender
     {
         [SerializeField] private float _animationSpeed = 15f;
+        [SerializeField] private float _distanceMultipierBase = 1.5f;
         [SerializeField] private Transform _anchor;
         [SerializeField] private SpriteRenderer _sprite;
         private Transform _spriteTransform;
@@ -29,7 +30,9 @@ namespace TutoToons
 
             while (currentSize <= destinationSize)
             {
-                currentSize += _animationSpeed * Time.deltaTime;
+                float distanceMultiplier = _distanceMultipierBase - (destinationSize - currentSize) / destinationSize;
+                
+                currentSize += _animationSpeed * Time.deltaTime * distanceMultiplier;
                 UpdateSize(Math.Min(currentSize, destinationSize));
                 
                 yield return timeout;

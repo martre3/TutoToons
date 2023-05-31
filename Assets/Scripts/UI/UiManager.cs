@@ -9,7 +9,6 @@ namespace TutoToons
         public static UiManager Instance { get; private set; }
 
         [SerializeField] private GameObject _mainMenu;
-        [SerializeField] private GameObject _gameScreen;
         
         private void Awake()
         {
@@ -27,15 +26,11 @@ namespace TutoToons
         private void UpdateUI(GameState state)
         {
             _mainMenu.SetActive(false);
-            _gameScreen.SetActive(false);
 
             switch (state)
             {
                 case GameState.Menu:
                     _mainMenu.SetActive(true);
-                    break;
-                case GameState.Playing:
-                    _gameScreen.SetActive(true);
                     break;
             }
         }

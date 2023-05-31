@@ -46,7 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e75fd6575b905a4d95527df8332c177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationSpeed: 15
+  _animationSpeed: 16
+  _distanceMultipierBase: 2.2
   _anchor: {fileID: 7998931188197828408}
   _sprite: {fileID: 7998931188574929186}
 --- !u!114 &8839148487976677917
