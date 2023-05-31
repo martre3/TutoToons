@@ -4,10 +4,8 @@ using UnityEngine;
 
 namespace TutoToons
 {
-    public interface IActivatable
+    public interface IPoolable
     {
-        bool IsDisabled();
-        void Disable();
-        void Activate();
+        void Reset();
     }
 }

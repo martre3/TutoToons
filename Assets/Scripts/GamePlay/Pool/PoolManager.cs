@@ -62,5 +62,13 @@ namespace TutoToons
                 _pools[group].Add(Instantiate(_pools[group].Obj));
             }
         }
+
+        public void ResetSpawned()
+        {
+            foreach (var pool in _pools)
+            {
+                pool.Value.Reset();
+            }
+        }
     }
 }

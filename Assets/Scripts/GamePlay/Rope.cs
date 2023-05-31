@@ -18,7 +18,13 @@ namespace TutoToons
             transform.position = point1.transform.position;
             _spriteExtender.ExtendTo(point2.transform.position, (finished) => IsConnected = finished);
         }
-        
+
+        private void OnEnable()
+        {
+            _spriteRenderer.enabled = false;
+            IsConnected = false;
+        }
+
         private void Awake()
         {
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();

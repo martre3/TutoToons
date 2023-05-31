@@ -8,7 +8,9 @@ namespace TutoToons
 {
     public class GamePlayManager : MonoBehaviour
     {
-        private const string _buttonTag = "Button";
+        [SerializeField] private float _finishDelay = 1.5f;
+        
+        private const string _pointTag = "Button";
 
         private Camera _camera;
         private IScreenInput _input;
@@ -47,7 +49,7 @@ namespace TutoToons
                 RaycastHit2D hit = Physics2D.Raycast(_camera.ScreenToWorldPoint(_input.GetPositionOnScreen()),
                     Vector2.zero);
 
-                if (hit.collider != null && hit.collider.CompareTag(_buttonTag))
+                if (hit.collider != null && hit.collider.CompareTag(_pointTag))
                 {
                     OnPointClicked(hit.transform.GetComponent<Point>());
                 }
@@ -62,7 +64,7 @@ namespace TutoToons
                 _previousActivatedPoint = point;
                 point.Disable();
 
-                if (_previousActivatedPoint.Number == _levelManager.CurrentLevel.Points.Count)
+                if (IsLevelFinished())
                 {
                     _buttonsToConnect.Enqueue(_levelManager.CurrentLevel.Points.First());
                 }
@@ -82,6 +84,11 @@ namespace TutoToons
                    && point.Number == _previousActivatedPoint.Number + 1;
         }
 
+        private bool IsLevelFinished()
+        {
+            return _previousActivatedPoint && _previousActivatedPoint.Number == _levelManager.CurrentLevel.Points.Count;
+        }
+        
         private void HandleStateChange(GameState state)
         {
             switch (state)
@@ -91,6 +98,7 @@ namespace TutoToons
                     StartCoroutine(ProcessQueue());
                     break;
                 default:
+                    _previousActivatedPoint = null;
                     StopAllCoroutines();
                     break;
             }
@@ -103,6 +111,8 @@ namespace TutoToons
 
             while (true)
             {
+                Debug.Log("sss");
+                
                 if (_buttonsToConnect.Count > 0)
                 {
                     var point = _buttonsToConnect.Dequeue();
@@ -116,10 +126,25 @@ namespace TutoToons
                     previousPoint = point;
                 }
 
+                if (IsLevelFinished() && _buttonsToConnect.Count == 0)
+                {
+                    yield return WaitAndEndLevel();
+                    break;
+                }
+                
                 yield return timeout;
             }
         }
 
+        private IEnumerator WaitAndEndLevel()
+        {
+            yield return new WaitForSeconds(_finishDelay);
+            
+            _poolManager.ResetSpawned();
+            _stateManager.SetState(GameState.Menu);
+            // _stateManager.SetState(GameState.LevelFinished);
+        }
+        
         private IEnumerator ConnectRope(Point point1, Point point2)
         {
             var rope = _poolManager

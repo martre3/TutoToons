@@ -7,6 +7,7 @@ namespace TutoToons
     public enum GameState
     {
         Menu,
+        LevelFinished,
         Playing,
     }
 }

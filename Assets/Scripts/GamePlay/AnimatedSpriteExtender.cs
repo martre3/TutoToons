@@ -16,7 +16,8 @@ namespace TutoToons
         {
             Vector2 direction = to - (Vector2) transform.position;
             transform.rotation = Quaternion.FromToRotation(Vector3.right, direction);
-
+            UpdateSize(0);
+            
             StartCoroutine(Animate(to, callback));
         }
 

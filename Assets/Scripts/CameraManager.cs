@@ -9,7 +9,7 @@ namespace TutoToons
     public class CameraManager : MonoBehaviour
     {
         public static CameraManager Instance { get; private set; }
-        
+
         private GameSettingsManager _settingsManager;
         private Camera _camera;
 
@@ -33,7 +33,11 @@ namespace TutoToons
             int levelSize = _settingsManager.Settings.LevelSize + _settingsManager.Settings.LevelPadding;
             int centerX = _settingsManager.Settings.LevelSize / 2;
 
-            _camera.transform.position = new Vector3(centerX, levelSize / 2, _camera.transform.position.z);
+            _camera.transform.position = new Vector3(
+                centerX,
+                levelSize / 2 - _settingsManager.Settings.LevelPadding / 2,
+                _camera.transform.position.z
+            );
             _camera.orthographicSize = levelSize / 2;
         }
     }
