@@ -7,5 +7,6 @@ namespace TutoToons
     public class Level
     {
         public List<Vector2> Points { get; set; }
+        public bool Completed { get; set; }
     }
 }

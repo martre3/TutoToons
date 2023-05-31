@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,8 +11,11 @@ namespace TutoToons
     {
         [SerializeField] private GameObject _levelSelectionButton;
         [SerializeField] private int _spacing = 20;
+        [Header("Default Button Colors")] [SerializeField] private ColorBlock _defaultButtonColors;
+        [Header("Completed Button Colors")] [SerializeField] private ColorBlock _completedButtonColors;
         
         private LevelManager _levelManager;
+        private List<Button> _buttons = new List<Button>();
         
         private void Awake()
         {
@@ -27,11 +31,36 @@ namespace TutoToons
                 var levelButton = Instantiate(_levelSelectionButton, transform);
                 var buttonRect = levelButton.GetComponent<RectTransform>();
                 var buttonTextMesh = levelButton.GetComponentInChildren<TextMeshProUGUI>();
-
+                var button = levelButton.GetComponent<Button>();
+                
                 buttonRect.anchoredPosition = new Vector2(0, (buttonRect.sizeDelta.y / 2 + (buttonRect.sizeDelta.y + _spacing) * i) * -1);
                 buttonTextMesh.text = $"Level {i + 1}";
+                button.onClick.AddListener(() => _levelManager.LoadLevel(level));
                 
-                levelButton.GetComponent<Button>().onClick.AddListener(() => _levelManager.LoadLevel(level));
+                _buttons.Add(button);
+            }
+            
+            UpdateButtons();
+        }
+
+        private void OnEnable()
+        {
+            Debug.Log("Enable");
+            UpdateButtons();
+        }
+
+        private void UpdateButtons()
+        {
+            if (_buttons.Count == 0)
+            {
+                return;
+            }
+            
+            for (int i = 0; i < _levelManager.Levels.Count; i++)
+            {
+                Debug.Log(_levelManager.Levels[i].Completed);
+                
+                _buttons[i].colors = _levelManager.Levels[i].Completed ? _completedButtonColors : _defaultButtonColors;
             }
         }
     }

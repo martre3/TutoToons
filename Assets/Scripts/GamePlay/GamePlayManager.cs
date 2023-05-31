@@ -111,8 +111,6 @@ namespace TutoToons
 
             while (true)
             {
-                Debug.Log("sss");
-                
                 if (_buttonsToConnect.Count > 0)
                 {
                     var point = _buttonsToConnect.Dequeue();
@@ -140,9 +138,9 @@ namespace TutoToons
         {
             yield return new WaitForSeconds(_finishDelay);
             
+            _levelManager.CurrentLevel.Level.Completed = true;
             _poolManager.ResetSpawned();
             _stateManager.SetState(GameState.Menu);
-            // _stateManager.SetState(GameState.LevelFinished);
         }
         
         private IEnumerator ConnectRope(Point point1, Point point2)

@@ -28,8 +28,6 @@ namespace TutoToons
         {
             _mainMenu.SetActive(false);
             _gameScreen.SetActive(false);
-            
-            Debug.Log(state);
 
             switch (state)
             {
