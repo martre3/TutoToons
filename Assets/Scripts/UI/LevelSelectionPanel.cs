@@ -45,7 +45,6 @@ namespace TutoToons
 
         private void OnEnable()
         {
-            Debug.Log("Enable");
             UpdateButtons();
         }
 
@@ -58,8 +57,6 @@ namespace TutoToons
             
             for (int i = 0; i < _levelManager.Levels.Count; i++)
             {
-                Debug.Log(_levelManager.Levels[i].Completed);
-                
                 _buttons[i].colors = _levelManager.Levels[i].Completed ? _completedButtonColors : _defaultButtonColors;
             }
         }

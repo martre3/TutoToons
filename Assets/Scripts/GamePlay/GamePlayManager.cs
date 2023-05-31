@@ -8,8 +8,9 @@ namespace TutoToons
 {
     public class GamePlayManager : MonoBehaviour
     {
+        public static GamePlayManager Instance { get; private set; }
+
         [SerializeField] private float _nextRopeDelay = 0.15f;
-        [SerializeField] private float _finishDelay = 1.5f;
 
         private const string _pointTag = "Button";
 
@@ -24,13 +25,20 @@ namespace TutoToons
 
         private void Awake()
         {
-            _camera = Camera.main;
-            _levelManager = LevelManager.Instance;
-            _stateManager = StateManager.Instance;
-            _poolManager = PoolManager.Instance;
-            _input = GetComponent<IScreenInput>();
+            if (Instance == null)
+            {
+                _camera = Camera.main;
+                _levelManager = LevelManager.Instance;
+                _stateManager = StateManager.Instance;
+                _poolManager = PoolManager.Instance;
+                _input = GetComponent<IScreenInput>();
 
-            StateManager.OnStateChange += HandleStateChange;
+                StateManager.OnStateChange += HandleStateChange;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
         private void Update()
@@ -127,7 +135,8 @@ namespace TutoToons
 
                 if (IsLevelFinished() && _buttonsToConnect.Count == 0)
                 {
-                    yield return WaitAndEndLevel();
+                    _stateManager.SetState(GameState.LevelFinished);
+                    
                     break;
                 }
                 
@@ -135,15 +144,6 @@ namespace TutoToons
             }
         }
 
-        private IEnumerator WaitAndEndLevel()
-        {
-            yield return new WaitForSeconds(_finishDelay);
-            
-            _levelManager.CurrentLevel.Level.Completed = true;
-            _poolManager.ResetSpawned();
-            _stateManager.SetState(GameState.Menu);
-        }
-        
         private IEnumerator ConnectRope(Point point1, Point point2)
         {
             var rope = _poolManager

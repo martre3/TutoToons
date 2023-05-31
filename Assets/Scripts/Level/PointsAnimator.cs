@@ -47,14 +47,6 @@ namespace TutoToons
 
         private List<List<Point>> GroupPointsVertically(List<Point> points)
         {
-            var a = points
-                .Select(point => new {Point = point, Group = (int) point.transform.position.x / _groupWidth});
-
-            foreach (var VARIABLE in a)
-            {
-                Debug.Log(VARIABLE.Group);
-            }
-            
             return points
                 .Select(point => new { Point = point, Group = (int) point.transform.position.x / _groupWidth })
                 .OrderBy(pair => pair.Group)

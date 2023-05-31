@@ -791,6 +791,7 @@ GameObject:
   - component: {fileID: 1540865112}
   - component: {fileID: 1540865114}
   - component: {fileID: 1540865113}
+  - component: {fileID: 1540865115}
   m_Layer: 0
   m_Name: GamePlay
   m_TagString: Untagged
@@ -838,7 +839,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextRopeDelay: 0.15
-  _finishDelay: 1.5
+--- !u!114 &1540865115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540865111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b12d53465904c3f45b54ee47b0696f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationInterval: 0.05
+  _finishDelay: 0.75
 --- !u!1 &1617054290
 GameObject:
   m_ObjectHideFlags: 0
@@ -1191,7 +1205,6 @@ GameObject:
   - component: {fileID: 2134592708}
   - component: {fileID: 2134592710}
   - component: {fileID: 2134592709}
-  - component: {fileID: 2134592711}
   - component: {fileID: 2134592712}
   m_Layer: 0
   m_Name: Level
@@ -1239,20 +1252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e822fef20e50542aa44ae008bad4eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2134592711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2134592707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 012410c2a44c754448864bf4a59b3e03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _poolManager: {fileID: 0}
-  _stateManager: {fileID: 0}
 --- !u!114 &2134592712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1348,14 +1347,6 @@ PrefabInstance:
     - target: {fileID: 7998931188197828408, guid: 52b0bbfd69498b24a95a0d118265f4a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7998931188197828409, guid: 52b0bbfd69498b24a95a0d118265f4a0, type: 3}
-      propertyPath: _animationSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7998931188197828409, guid: 52b0bbfd69498b24a95a0d118265f4a0, type: 3}
-      propertyPath: _distanceMultipierBase
-      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7998931188197828411, guid: 52b0bbfd69498b24a95a0d118265f4a0, type: 3}
       propertyPath: m_Name
