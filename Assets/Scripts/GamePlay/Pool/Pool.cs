@@ -7,18 +7,6 @@ namespace TutoToons
 {
     public class Pool
     {
-        private struct Poolable
-        {
-            public GameObject obj { get; }
-            public IPoolable component { get; }
-
-            public Poolable(GameObject obj, IPoolable component)
-            {
-                this.obj = obj;
-                this.component = component;
-            }
-        }
-        
         public GameObject Obj { get; }
         public int Size => _pool.Count;
 
@@ -54,11 +42,6 @@ namespace TutoToons
             obj.transform.SetParent(_container.transform);
             obj.SetActive(false);
 
-            // if (obj.TryGetComponent(out IPoolable component) == false)
-            // {
-            //     throw new ArgumentException($"Poolable object {obj.name} must have a component implementing IPoolable interface");
-            // }
-            
             _pool.Add(obj);
         }
 
@@ -66,7 +49,6 @@ namespace TutoToons
         {
             for (int i = _current - 1; i >= 0; i--)
             {
-                // _pool[i].component.Reset();
                 _pool[i].SetActive(false);
             }
 

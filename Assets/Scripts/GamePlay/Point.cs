@@ -11,7 +11,7 @@ namespace TutoToons
         public PointState State { get; private set; } = PointState.Default;
         public int Number { get; private set; }
         
-        [SerializeField] private Sprite _defaultButton;
+        [SerializeField] private Sprite _defaultPoint;
         [SerializeField] private GameObject _particles;
 
         private static readonly int Fade = Animator.StringToHash("Fade");
@@ -52,23 +52,17 @@ namespace TutoToons
         private void OnEnable()
         {
             State = PointState.Default;
-            _renderer.sprite = _defaultButton;
+            _renderer.sprite = _defaultPoint;
             _numberText.color = _defaultTextColor;
             _particles.SetActive(false);
         }
 
-        private void Update()
-        {
-            // _numberText.color = _defaultTextColor;
-
-        }
-        
         private void Awake()
         {
             _numberText = GetComponentInChildren<TextMeshPro>();
             _animator = _numberText.gameObject.GetComponent<Animator>();
             _renderer = GetComponentInChildren<SpriteRenderer>();
-            _renderer.sprite = _defaultButton;
+            _renderer.sprite = _defaultPoint;
             _defaultTextColor = _numberText.color;
 
             _spriteAnimator = _renderer.gameObject.GetComponent<Animator>();

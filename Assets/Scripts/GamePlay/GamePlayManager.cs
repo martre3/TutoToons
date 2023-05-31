@@ -12,7 +12,7 @@ namespace TutoToons
 
         [SerializeField] private float _nextRopeDelay = 0.15f;
 
-        private const string _pointTag = "Button";
+        private const string _pointTag = "Point";
 
         private Camera _camera;
         private IScreenInput _input;
@@ -20,7 +20,7 @@ namespace TutoToons
         private StateManager _stateManager;
         private PoolManager _poolManager;
 
-        private Queue<Point> _buttonsToConnect;
+        private Queue<Point> _pointsToConnect;
         private Point _previousActivatedPoint;
 
         private void Awake()
@@ -69,13 +69,13 @@ namespace TutoToons
         {
             if (CanPointBeActivated(point))
             {
-                _buttonsToConnect.Enqueue(point);
+                _pointsToConnect.Enqueue(point);
                 _previousActivatedPoint = point;
                 point.Disable();
 
                 if (IsLevelFinished())
                 {
-                    _buttonsToConnect.Enqueue(_levelManager.CurrentLevel.Points.First());
+                    _pointsToConnect.Enqueue(_levelManager.CurrentLevel.Points.First());
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace TutoToons
             switch (state)
             {
                 case GameState.Playing:
-                    _buttonsToConnect = new Queue<Point>();
+                    _pointsToConnect = new Queue<Point>();
                     StartCoroutine(ProcessQueue());
                     break;
                 default:
@@ -120,9 +120,9 @@ namespace TutoToons
 
             while (true)
             {
-                if (_buttonsToConnect.Count > 0)
+                if (_pointsToConnect.Count > 0)
                 {
-                    var point = _buttonsToConnect.Dequeue();
+                    var point = _pointsToConnect.Dequeue();
 
                     if (previousPoint)
                     {
@@ -133,7 +133,7 @@ namespace TutoToons
                     previousPoint = point;
                 }
 
-                if (IsLevelFinished() && _buttonsToConnect.Count == 0)
+                if (IsLevelFinished() && _pointsToConnect.Count == 0)
                 {
                     _stateManager.SetState(GameState.LevelFinished);
                     

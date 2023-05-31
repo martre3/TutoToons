@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7703636892339126878}
   m_Layer: 0
   m_Name: Point
-  m_TagString: Button
+  m_TagString: Point
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86888b0e6ca8e844ebe4025fb616e53b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultButton: {fileID: 21300000, guid: 8067d8c1c73536c45bfb5b5279c598b2, type: 3}
+  _defaultPoint: {fileID: 21300000, guid: 8067d8c1c73536c45bfb5b5279c598b2, type: 3}
   _particles: {fileID: 4861723152281095981}
 --- !u!61 &7703636892339126878
 BoxCollider2D:
